@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshCart | Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">FreshCart<span class="brand-dot">.</span> Admin</div>
+        <nav class="nav-links">
+            <a href="index.html">Shop</a>
+            <a href="orders.html">Orders</a>
+            <a href="admin-dashboard.html" class="active">Admin</a>
+            <button class="ghost-btn" onclick="logout()">Logout</button>
+        </nav>
+    </header>
+
+    <main class="page-wrap admin-shell">
+        <aside class="admin-sidebar">
+            <div class="admin-profile">
+                <p class="meta">Logged in as</p>
+                <h3 id="admin-name">Admin</h3>
+                <p id="admin-email" class="meta"></p>
+            </div>
+            <nav class="admin-menu">
+                <button class="admin-tab active" data-tab="overview">Overview</button>
+                <button class="admin-tab" data-tab="orders">Orders</button>
+                <button class="admin-tab" data-tab="products">Products</button>
+                <button class="admin-tab" data-tab="users">Users</button>
+            </nav>
+        </aside>
+
+        <section class="admin-main">
+            <section id="tab-overview" class="admin-panel active">
+                <div class="admin-header">
+                    <div>
+                        <p class="eyebrow">Dashboard</p>
+                        <h1>Operational snapshot</h1>
+                        <p class="meta">Monitor sales, inventory, and active customers.</p>
+                    </div>
+                    <button class="primary-btn" onclick="refreshAll()">Refresh</button>
+                </div>
+
+                <div class="admin-stats" id="admin-stats"></div>
+
+                <div class="admin-grid-two">
+                    <article class="admin-card">
+                        <h2>Low Stock</h2>
+                        <div id="low-stock" class="admin-list compact"></div>
+                    </article>
+                    <article class="admin-card">
+                        <h2>Recent Orders</h2>
+                        <div id="recent-orders" class="admin-list compact"></div>
+                    </article>
+                </div>
+            </section>
+
+            <section id="tab-orders" class="admin-panel">
+                <div class="admin-header">
+                    <div>
+                        <p class="eyebrow">Orders</p>
+                        <h1>All customer orders</h1>
+                        <p class="meta">Track activity across all users.</p>
+                    </div>
+                    <button class="ghost-btn" onclick="exportOrdersCsv()">Export CSV</button>
+                </div>
+                <div id="orders-table" class="admin-table"></div>
+            </section>
+
+            <section id="tab-products" class="admin-panel">
+                <div class="admin-header">
+                    <div>
+                        <p class="eyebrow">Products</p>
+                        <h1>Catalog control</h1>
+                        <p class="meta">Add, edit, or remove items.</p>
+                    </div>
+                </div>
+                <div class="admin-grid-two">
+                    <article class="admin-card">
+                        <h2>Add Product</h2>
+                        <div class="form-grid">
+                            <input id="name" placeholder="Product name">
+                            <input id="price" type="number" placeholder="Price">
+                            <input id="stock" type="number" placeholder="Stock">
+                            <input id="category" placeholder="Category (e.g. grains, dairy, produce)">
+                            <input id="image" placeholder="Image file name (e.g. rice.jpg or /uploads/...)">
+                            <div class="upload-row">
+                                <input id="image-file" type="file" accept="image/*">
+                                <button class="ghost-btn" onclick="uploadImage()">Upload Image</button>
+                            </div>
+                            <p id="upload-status" class="meta"></p>
+                        </div>
+                        <button class="primary-btn" onclick="createProduct()">Create Product</button>
+                    </article>
+                    <article class="admin-card">
+                        <h2>Manage Products</h2>
+                        <div id="admin-products" class="admin-list"></div>
+                    </article>
+                </div>
+            </section>
+
+            <section id="tab-users" class="admin-panel">
+                <div class="admin-header">
+                    <div>
+                        <p class="eyebrow">Users</p>
+                        <h1>Customer directory</h1>
+                        <p class="meta">View registered users and roles.</p>
+                    </div>
+                </div>
+                <div id="users-table" class="admin-table"></div>
+            </section>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <strong>FreshCart</strong>
+            <div class="footer-links">
+                <a href="index.html">Shop</a>
+                <a href="orders.html">Orders</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>

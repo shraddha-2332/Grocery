@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshCart | Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">FreshCart<span class="brand-dot">.</span> Admin</div>
+        <nav class="nav-links">
+            <a href="index.html">Shop</a>
+            <a href="orders.html">Orders</a>
+            <a href="admin-dashboard.html" class="active">Admin</a>
+            <button class="ghost-btn" onclick="logout()">Logout</button>
+        </nav>
+    </header>
+
+    <main class="page-wrap">
+        <section class="admin-card">
+            <h2>Admin Dashboard has moved</h2>
+            <p class="meta">Use the new consolidated dashboard for orders, products, and users.</p>
+            <a class="primary-btn" href="admin-dashboard.html">Go to Admin Dashboard</a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <strong>FreshCart</strong>
+            <div class="footer-links">
+                <a href="index.html">Shop</a>
+                <a href="orders.html">Orders</a>
+                <a href="cart.html">Cart</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.location.replace("admin-dashboard.html");
+    </script>
+</body>
+</html>

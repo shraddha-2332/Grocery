@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshCart | Cart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">FreshCart<span class="brand-dot">.</span></div>
+        <nav class="nav-links">
+            <a href="index.html">Shop</a>
+            <a href="cart.html" class="active">Cart <span id="cart-count" class="count-pill">0</span></a>
+            <a href="orders.html">Orders</a>
+            <a href="admin-dashboard.html" id="admin-link" style="display:none;">Admin</a>
+            <button class="ghost-btn" onclick="logout()">Logout</button>
+        </nav>
+    </header>
+
+    <main class="page-wrap">
+        <section class="cart-head">
+            <h1>Your Cart</h1>
+            <div class="cart-actions">
+                <p id="cart-summary" class="summary"></p>
+                <select id="payment-method" class="qty-select">
+                    <option value="cod">Payment: Cash on Delivery</option>
+                    <option value="card">Payment: Card</option>
+                    <option value="upi">Payment: UPI</option>
+                </select>
+                <button class="ghost-btn" onclick="clearCart()">Clear Cart</button>
+                <button class="primary-btn" onclick="checkout()">Checkout</button>
+            </div>
+        </section>
+
+        <section id="cart" class="cart-list"></section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <strong>FreshCart</strong>
+            <div class="footer-links">
+                <a href="index.html">Shop</a>
+                <a href="orders.html">Orders</a>
+                <a href="admin-dashboard.html">Admin</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="cart.js"></script>
+</body>
+</html>
