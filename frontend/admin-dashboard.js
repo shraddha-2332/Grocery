@@ -10,6 +10,7 @@ function logout() {
 
 function resolveImageSrc(image) {
     if (!image) return "";
+    if (image.startsWith("data:")) return image;
     if (image.startsWith("http://") || image.startsWith("https://")) return image;
     if (image.startsWith("/uploads/")) return API + image;
     return `images/${image}`;

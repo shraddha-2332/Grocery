@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const fs = require("fs");
 const multer = require("multer");
 
 require("./db");
@@ -19,22 +18,8 @@ const app = express();
 const createOrderNumber = () => `FC-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 const isAdminEmail = (email = "") =>
     (process.env.ADMIN_EMAIL || "").trim().toLowerCase() === String(email).trim().toLowerCase();
-const uploadsDir = path.join(__dirname, "uploads");
-
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, uploadsDir),
-    filename: (req, file, cb) => {
-        const safeName = file.originalname.replace(/\s+/g, "-");
-        cb(null, `${Date.now()}-${safeName}`);
-    }
-});
-
 const upload = multer({
-    storage,
+    storage: multer.memoryStorage(),
     fileFilter: (req, file, cb) => {
         if (!file.mimetype.startsWith("image/")) {
             return cb(new Error("Only image files are allowed"));
@@ -46,7 +31,6 @@ const upload = multer({
 
 app.use(cors());
 app.use(express.json());
-app.use("/uploads", express.static(uploadsDir));
 
 // REGISTER
 app.post("/register", async (req, res) => {
@@ -200,9 +184,11 @@ app.post("/upload-image", authMiddleware, adminMiddleware, upload.single("image"
         if (!req.file) {
             return res.status(400).json({ message: "Image file is required" });
         }
+        const base64 = req.file.buffer.toString("base64");
+        const dataUrl = `data:${req.file.mimetype};base64,${base64}`;
         res.json({
             message: "Image uploaded",
-            imagePath: `/uploads/${req.file.filename}`
+            imagePath: dataUrl
         });
     } catch (err) {
         res.status(500).json({ error: err.message });
