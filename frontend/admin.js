@@ -1,5 +1,13 @@
 const API = window.API_BASE_URL || "http://localhost:5000";
 
+async function readJson(res) {
+    try {
+        return await res.json();
+    } catch {
+        return {};
+    }
+}
+
 function logout() {
     localStorage.removeItem("token");
     window.location = "login.html";
@@ -55,15 +63,22 @@ async function uploadImage() {
 
     statusEl.textContent = "Uploading image...";
 
-    const res = await fetch(API + "/upload-image", {
-        method: "POST",
-        headers: { "Authorization": token },
-        body: formData
-    });
+    let res;
+    try {
+        res = await fetch(API + "/upload-image", {
+            method: "POST",
+            headers: { "Authorization": token },
+            body: formData
+        });
+    } catch (err) {
+        statusEl.textContent = "Upload failed: network error";
+        console.error(err);
+        return null;
+    }
 
-    const data = await res.json();
+    const data = await readJson(res);
     if (!res.ok) {
-        statusEl.textContent = data.message || data.error || "Upload failed";
+        statusEl.textContent = data.message || data.error || `Upload failed (${res.status})`;
         return null;
     }
 
@@ -109,6 +124,7 @@ async function createProduct() {
     const category = document.getElementById("category").value.trim() || "general";
     let image = document.getElementById("image").value.trim();
     const fileInput = document.getElementById("image-file");
+    const statusEl = document.getElementById("upload-status");
 
     if (!image && fileInput.files.length) {
         const uploadedPath = await uploadImage();
@@ -122,17 +138,25 @@ async function createProduct() {
         return;
     }
 
-    const res = await fetch(API + "/products", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": token
-        },
-        body: JSON.stringify({ name, price, stock, image, category })
-    });
+    let res;
+    try {
+        res = await fetch(API + "/products", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({ name, price, stock, image, category })
+        });
+    } catch (err) {
+        if (statusEl) statusEl.textContent = "Create failed: network error";
+        console.error(err);
+        alert("Create failed: network error");
+        return;
+    }
 
-    const data = await res.json();
-    alert(data.message || "Done");
+    const data = await readJson(res);
+    alert(data.message || (res.ok ? "Done" : `Create failed (${res.status})`));
     if (res.ok) {
         document.getElementById("name").value = "";
         document.getElementById("price").value = "";
